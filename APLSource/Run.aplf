@@ -1,0 +1,45 @@
+ Run
+⍝ TODO: modularise - LoadDependencies; ImportData; Analyse; ExportResults
+⍝ LoadDependencies
+
+⍝     : import constants from config file
+ ⍝ 'CUST'⎕NS ⍬
+ ⎕FIX ⎕SE.Dyalog.Utils.ExpandConfig'file://$DYALOG/SALT/tools/data/names.dyalog'
+⍝ ]get HTMLTables
+
+⍝ ImportData
+ customer←⎕CSV'C:\g\ECommerce\archive\olist_customers_dataset.csv'
+ person←names.genNames≢data
+ age←17+?100⍴⍨≢data
+ customer,⍨←'first_name' 'last_name' 'gender' 'age'⍪person,age
+
+ From←{h←1⌷⍵ ⋄ d←1↓⍵ ⋄ d[;h⍳⊆⍺]}
+ _SortBy←{(⊂⍺⍺ ⍵)⌷⍺}
+
+ state←HTMLTables.(XML2Mat ⎕XML 4⊃ExtractTables Fetch'https://en.wikipedia.org/wiki/Federative_units_of_Brazil')
+ state←⊃∘⌽¨state[;1 2]
+
+⍝ Analysis
+ cust_per_state←'Code' 'count'⍪{⍺,≢⍵}⌸'customer_state'From customer
+
+ ⍝ Count of customers, split by gender, per state
+ Sort←{(⊂⍋⍵)⌷⍵}
+ GroupCount←{≢⍵}⌸⍤Sort,≢
+ CustomerPivot←{⍺,GroupCount ⍵}⌸⍥(From∘customer)
+
+
+
+ header←'state_code' 'F' 'M' 'total'
+ ⎕←header⍪('customer_state'From customer){⍺,GroupCount ⍵}⌸'gender'From customer
+ ⎕←''
+ header←'gender',⍥⊆(Sort st),⊂'total'
+ ⎕←header⍪('gender'From customer){⍺,GroupCount ⍵}⌸'customer_state'From customer
+
+ ⎕←header⍪'gender'CustomerPivot'customer_state'
+
+⍝ Pretty printing result
+
+ ⎕←5↑cust_per_state(⍒_SortBy)'count'From cust_per_state
+ cust_state_name←('name'From state)[state⍳⍥('Code'∘From)cust_per_state]
+ 'name'From state
+ ⎕←('Code'From state)⎕R('name'From state)@1⍤1⊢2 1/cust_per_state
