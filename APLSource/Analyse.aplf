@@ -6,11 +6,11 @@
  CustomerPivot←{⍺,GroupCount ⍵}⌸⍥(From∘customer)
 
 ⍝ Count of customers, split by gender, per state
- header←'state_code' 'F' 'M' 'total'
- ⎕←header⍪'customer_state'CustomerPivot'gender'
+ 'pivot'⎕NS ⍬
+ pivot.state_gender←'customer_state'CustomerPivot'gender'
 
  ⎕←''
 
 ⍝ Count of customers, split by state, per gender
  header←'gender',⍥⊆(Sort'Code'From state),⊂'total'
- ⎕←header⍪'gender'CustomerPivot'customer_state'
+ pivot.gender_state←'gender'CustomerPivot'customer_state'
