@@ -1,0 +1,14 @@
+{
+	settings:
+		{
+			LX: "⎕SE.Link.Create # 'APLSource'",
+
+			names: "file://$DYALOG/SALT/tools/data/names.dyalog",
+			HTMLTables: "/g/HTMLTables/APLSource",
+			HttpCommand: "/g/HttpCommand/source/HttpCommand.dyalog",
+
+			customer_data: "C:/g/ECommerce/archive/olist_customers_dataset.csv",
+
+			brazil_states_info: "https://en.wikipedia.org/wiki/Federative_units_of_Brazil",
+		}
+}

@@ -1,0 +1,3 @@
+ Config←{
+     ⎕SE.Dyalog.Utils.(ExpandConfig Config)⍵
+ }

@@ -1,0 +1,5 @@
+ LoadDependencies;opt
+ ⎕FIX Config'names'
+ opt←⎕NS ⍬ ⋄ opt.overwrite←1
+ opt ⎕SE.Link.Import'HTMLTables'(Config'HTMLTables')
+ (0 HTMLTables ⍬)⎕SE.SALT.Load Config'HttpCommand'
