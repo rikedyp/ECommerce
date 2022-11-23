@@ -1,0 +1,5 @@
+ ExportResults
+ ⎕←5↑cust_per_state(⍒_SortBy)'count'From cust_per_state
+ cust_state_name←('name'From state)[state⍳⍥('Code'∘From)cust_per_state]
+ 'name'From state
+ ⎕←('Code'From state)⎕R('name'From state)@1⍤1⊢2 1/cust_per_state

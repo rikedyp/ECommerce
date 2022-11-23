@@ -1,0 +1,16 @@
+ Analyse
+ cust_per_state←'Code' 'count'⍪{⍺,≢⍵}⌸'customer_state'From customer
+
+ Sort←{(⊂⍋⍵)⌷⍵}
+ GroupCount←{≢⍵}⌸⍤Sort,≢
+ CustomerPivot←{⍺,GroupCount ⍵}⌸⍥(From∘customer)
+
+⍝ Count of customers, split by gender, per state
+ header←'state_code' 'F' 'M' 'total'
+ ⎕←header⍪'customer_state'CustomerPivot'gender'
+
+ ⎕←''
+
+⍝ Count of customers, split by state, per gender
+ header←'gender',⍥⊆(Sort'Code'From state),⊂'total'
+ ⎕←header⍪'gender'CustomerPivot'customer_state'
