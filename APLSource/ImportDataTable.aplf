@@ -1,0 +1,8 @@
+ ImportDataTable←{
+     r←⎕NS ⍬   ⍝ Empty namespace
+     _←r.⎕DF'[Data Table]'   ⍝ Data type label
+     ⍺←1   ⍝ Read all data as characters by default
+     r.(data header)←⎕CSV ⍵ ⍬ ⍺ 1
+     r.Column←{data[;header⍳⍥⎕C⊆⍵]}   ⍝ Look up column names case insensitively
+     r
+ }

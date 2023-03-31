@@ -1,0 +1,12 @@
+ Report←{
+⍝ ⍵: data table namespace
+     parts←'Columns' 'Row count' 'Empty cell count' 'Row with empty cell count'
+     parts,←'Duplicate row count' 'Columns with empty cells'
+     parts,←'Total size in memory (bytes)' 'Average record size in memory (bytes)'
+     r←⊂⍵.header ⋄ r,←≢⍵.data
+     mt←(0∊⍴)¨⍵.data
+     r,←+/,mt ⋄ r,←+/∨/mt ⋄ r,←+/~≠⍵.data ⋄ r,←⊂⍵.header⌿⍨∨⌿mt
+     r,←⍬⍴⎕SIZE'⍵'
+     r,←⊃(+⌿÷1⌈≢){row←⍵ ⋄ ⎕SIZE'row'}¨↓⍵.data
+     parts,⍪r
+ }
