@@ -1,0 +1,8 @@
+ r←Setup(ns path)
+  ⍝   ns : char vec :: name of namespace
+  ⍝ path : char vec :: path to folder
+ :If 0=⎕NC ns
+     r←⎕SE.Link.Create ns path
+ :Else
+     r←⎕SE.Link.Status''
+ :EndIf
