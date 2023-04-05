@@ -1,0 +1,50 @@
+ svg←{colors}(xlabel Scatter ylabel)data;InitCauseway;Causeway;System;sp;fc;fl;fs;fmt;names;xa;xw;ya;yw
+⍝ eg: 'red' 'blue' ('xlabel'Scatter'ylabel') ('series1' (y1 x1)) ('series2' (y2 x2))
+
+⍝ Init
+ :If 0=⎕NC'Causeway'
+     'InitCauseway'⎕CY'sharpplot'
+     InitCauseway ⍬
+ :EndIf
+ sp←⎕NEW Causeway.SharpPlot
+
+⍝ Format
+ sp.XAxisStyle←Causeway.XAxisStyles.GridLines
+ sp.YAxisStyle←Causeway.YAxisStyles.(GridLines+AtEndCaption)
+ fc fl fs←System.Drawing.Color.Black 9.5 7.5 ⍝ font color, large size, small size
+ sp.SetXCaptionFont fl fc ⋄ sp.SetXLabelFont fs fc
+ sp.SetYCaptionFont fl fc ⋄ sp.SetYLabelFont fs fc
+ sp.SetKeyFont fl fc
+ fmt←'0.00' ⋄ sp.XLabelFormat←fmt ⋄ sp.YLabelFormat←fmt
+ sp.SetPenWidths 0.5
+
+⍝ Points
+ :If 0=⎕NC'colors'
+     colors←⊂'black'
+ :EndIf
+ :If ¯4<≡data
+     names data←data
+     data←,⊂data
+ :Else
+     names data←↓⍉↑data ⍝ names and data
+ :EndIf
+ colors←(≢data)⍴⊆colors ⍝ "scalar extension"
+ sp.SetMarkers Marker.Dot
+
+⍝ Labels
+ sp.XCaption←,xlabel
+ sp.YCaption←,ylabel,⎕UCS 10 ⍝ add newline to leave some space
+ sp.SetKeyText⊂names
+
+⍝ Limits
+ ya xa←⌊⌿⌊/¨↑data
+ yw xw←⌈⌿⌈/¨↑data
+ sp.SetYRange ya yw
+ sp.SetXRange xa xw
+
+⍝ Plot and display
+ :For i :In ⍳≢data
+     sp.SetColors i⌷colors
+     sp.DrawScatterPlot i⊃data
+ :EndFor
+ svg←sp.RenderSvg Causeway.SvgMode.FixedAspect
